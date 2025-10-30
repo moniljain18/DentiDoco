@@ -92,7 +92,7 @@ function VapiWidget() {
         setMessages([]);
         setCallEnded(false);
 
-        await vapi.start(process.env.NEXT_PUBLIC_VAPI_ASSISTANT_ID);
+        await vapi.start(process.env.NEXT_PUBLIC_VAPI_ASSISTANT_PUBLIC_ID);
       } catch (error) {
         console.log("Failed to start call", error);
         setConnecting(false);
@@ -165,7 +165,7 @@ function VapiWidget() {
               </div>
             </div>
 
-            <h2 className="text-xl font-bold text-foreground">DentWise AI</h2>
+            <h2 className="text-xl font-bold text-foreground">DentDoco AI</h2>
             <p className="text-sm text-muted-foreground mt-1">Dental Assistant</p>
 
             {/* SPEAKING INDICATOR */}
@@ -231,7 +231,7 @@ function VapiWidget() {
             {messages.map((msg, index) => (
               <div key={index} className="message-item animate-in fade-in duration-300">
                 <div className="font-semibold text-xs text-muted-foreground mb-1">
-                  {msg.role === "assistant" ? "DentWise AI" : "You"}:
+                  {msg.role === "assistant" ? "DentDoco AI" : "You"}:
                 </div>
                 <p className="text-foreground">{msg.content}</p>
               </div>
@@ -240,7 +240,7 @@ function VapiWidget() {
             {callEnded && (
               <div className="message-item animate-in fade-in duration-300">
                 <div className="font-semibold text-xs text-primary mb-1">System:</div>
-                <p className="text-foreground">Call ended. Thank you for using DentWise AI!</p>
+                <p className="text-foreground">Call ended. Thank you for using DentDoco AI!</p>
               </div>
             )}
           </div>
