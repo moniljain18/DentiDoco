@@ -39,11 +39,11 @@ export async function getAppointments() {
 }
 
 export async function getUserAppointments() {
-  try {
-    // get authenticated user from Clerk
-    const { userId } = await auth();
-    if (!userId) throw new Error("You must be logged in to view appointments");
+  // get authenticated user from Clerk
+  const { userId } = await auth();
+  if (!userId) throw new Error("You must be logged in to view appointments");
 
+  try {
     // find user by clerkId from authenticated session
     const user = await prisma.user.findUnique({ where: { clerkId: userId } });
     if (!user) throw new Error("User not found. Please ensure your account is properly set up.");
@@ -65,10 +65,10 @@ export async function getUserAppointments() {
 }
 
 export async function getUserAppointmentStats() {
-  try {
-    const { userId } = await auth();
-    if (!userId) throw new Error("You must be authenticated");
+  const { userId } = await auth();
+  if (!userId) throw new Error("You must be authenticated");
 
+  try {
     const user = await prisma.user.findUnique({ where: { clerkId: userId } });
 
     if (!user) throw new Error("User not found");
@@ -124,14 +124,14 @@ interface BookAppointmentInput {
 }
 
 export async function bookAppointment(input: BookAppointmentInput) {
+  const { userId } = await auth();
+  if (!userId) throw new Error("You must be logged in to book an appointment");
+
+  if (!input.doctorId || !input.date || !input.time) {
+    throw new Error("Doctor, date, and time are required");
+  }
+
   try {
-    const { userId } = await auth();
-    if (!userId) throw new Error("You must be logged in to book an appointment");
-
-    if (!input.doctorId || !input.date || !input.time) {
-      throw new Error("Doctor, date, and time are required");
-    }
-
     const user = await prisma.user.findUnique({ where: { clerkId: userId } });
     if (!user) throw new Error("User not found. Please ensure your account is properly set up.");
 
